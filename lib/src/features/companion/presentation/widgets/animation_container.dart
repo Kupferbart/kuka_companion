@@ -26,11 +26,6 @@ class AnimationContainer extends StatelessWidget {
       child: result,
     );
 
-    result = ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 1200),
-      child: result,
-    );
-
     return result;
   }
 }
