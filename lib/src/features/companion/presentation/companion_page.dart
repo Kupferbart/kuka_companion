@@ -10,6 +10,11 @@ class CompanionPage extends StatelessWidget {
 
     result = const AnimationContainer();
 
+    result = Padding(
+      padding: const EdgeInsets.all(64),
+      child: result,
+    );
+
     result = Center(
       child: result,
     );
