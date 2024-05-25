@@ -21,7 +21,7 @@ class App extends StatelessWidget {
         colorScheme: colorScheme,
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      home: const SimpleStateMachine(),
     );
   }
 }
@@ -30,7 +30,7 @@ class SimpleStateMachine extends StatefulWidget {
   const SimpleStateMachine({Key? key}) : super(key: key);
 
   @override
-  _SimpleStateMachineState createState() => _SimpleStateMachineState();
+  State<SimpleStateMachine> createState() => _SimpleStateMachineState();
 }
 
 class _SimpleStateMachineState extends State<SimpleStateMachine> {
