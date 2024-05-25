@@ -6,7 +6,8 @@ import '../domain/app_user.dart';
 part 'user_repository.g.dart';
 
 @riverpod
-UserRepository userRepository(UserRepositoryRef ref) => const MockUserRepository();
+UserRepository userRepository(UserRepositoryRef ref) =>
+    const MockUserRepository();
 
 abstract class UserRepository {
   const UserRepository();

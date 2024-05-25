@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kuka_companion/src/features/user_management/presentation/controllers/selected_user_controller.dart';
 
+import '../../../../routing/routes.dart';
+
 class LoginButtonArea extends ConsumerWidget {
   const LoginButtonArea({super.key});
 
@@ -12,7 +14,7 @@ class LoginButtonArea extends ConsumerWidget {
     Widget result;
 
     result = ElevatedButton(
-      onPressed: selectedUser == null ? null : () {},
+      onPressed: selectedUser == null ? null : () => const CompanionRoute().go(context),
       child: const Text("Los geht's!"),
     );
 

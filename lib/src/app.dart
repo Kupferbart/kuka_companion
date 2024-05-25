@@ -1,64 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:rive/rive.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kuka_companion/src/routing/app_router.dart';
 
-import 'features/user_management/presentation/login_page.dart';
-
-class App extends StatelessWidget {
+class App extends ConsumerWidget{
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: Colors.teal);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appRouter = ref.watch(appRouterProvider);
 
-    return MaterialApp(
-      theme: ThemeData(
-        listTileTheme: ListTileThemeData(
-          tileColor: colorScheme.surfaceContainerHigh,
-          textColor: colorScheme.onSurface,
-          selectedTileColor: colorScheme.secondaryContainer,
-          selectedColor: colorScheme.onSecondaryContainer,
-        ),
-        colorScheme: colorScheme,
-        useMaterial3: true,
+    final ColorScheme colorScheme =
+        ColorScheme.fromSeed(seedColor: Colors.teal);
+
+    final ThemeData theme = ThemeData(
+      listTileTheme: ListTileThemeData(
+        tileColor: colorScheme.surfaceContainerHigh,
+        textColor: colorScheme.onSurface,
+        selectedTileColor: colorScheme.secondaryContainer,
+        selectedColor: colorScheme.onSecondaryContainer,
       ),
-      home: const SimpleStateMachine(),
+      colorScheme: colorScheme,
+      useMaterial3: true,
     );
-  }
-}
 
-class SimpleStateMachine extends StatefulWidget {
-  const SimpleStateMachine({Key? key}) : super(key: key);
-
-  @override
-  State<SimpleStateMachine> createState() => _SimpleStateMachineState();
-}
-
-class _SimpleStateMachineState extends State<SimpleStateMachine> {
-  SMITrigger? _pushButtonLeft;
-
-  void _onRiveInit(Artboard artboard) {
-    final controller = StateMachineController.fromArtboard(artboard, 'Current Statemachine Ben');
-    artboard.addController(controller!);
-    _pushButtonLeft = controller.findInput<bool>('pushButtonLeft') as SMITrigger;
-  }
-
-  void _hitPushButtonLeft() => _pushButtonLeft?.fire();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Simple Animation'),
-      ),
-      body: Center(
-        child: GestureDetector(
-          child: RiveAnimation.asset(
-            'assets/square_guy_team.riv',
-            onInit: _onRiveInit,
-          ),
-          onTap: _hitPushButtonLeft,
-        ),
-      ),
+    return MaterialApp.router(
+      routerConfig: appRouter,
+      theme: theme,
     );
   }
 }

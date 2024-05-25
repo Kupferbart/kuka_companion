@@ -19,7 +19,6 @@ class UserListTile extends ConsumerWidget {
     Widget result;
 
     result = ListTile(
-
       title: Text(user.firstName.value),
       selected: selectedUser == user,
       onTap: () =>
