@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
+import 'features/user_management/presentation/login_page.dart';
+
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: Colors.teal);
+
     return MaterialApp(
-      home: Container(
-        //color: Colors.lightGreen,
-        child: SimpleStateMachine(),
+      theme: ThemeData(
+        listTileTheme: ListTileThemeData(
+          tileColor: colorScheme.surfaceContainerHigh,
+          textColor: colorScheme.onSurface,
+          selectedTileColor: colorScheme.secondaryContainer,
+          selectedColor: colorScheme.onSecondaryContainer,
+        ),
+        colorScheme: colorScheme,
+        useMaterial3: true,
       ),
+      home: const SimpleStateMachine(),
     );
   }
 }
@@ -19,7 +30,7 @@ class SimpleStateMachine extends StatefulWidget {
   const SimpleStateMachine({Key? key}) : super(key: key);
 
   @override
-  _SimpleStateMachineState createState() => _SimpleStateMachineState();
+  State<SimpleStateMachine> createState() => _SimpleStateMachineState();
 }
 
 class _SimpleStateMachineState extends State<SimpleStateMachine> {
