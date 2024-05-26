@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
 class AnimationContainer extends StatelessWidget {
-  const AnimationContainer({Key? key});
+  const AnimationContainer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class AnimationContainer extends StatelessWidget {
 }
 
 class SimpleStateMachine extends StatefulWidget {
-  const SimpleStateMachine({Key? key});
+  const SimpleStateMachine({super.key});
 
   @override
   State<SimpleStateMachine> createState() => _SimpleStateMachineState();
