@@ -7,17 +7,17 @@ class AnimationContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.blue,
-        ),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      clipBehavior: Clip.hardEdge,
-      child: AspectRatio(
-        aspectRatio: 16 / 9,
-        child: SimpleStateMachine(),
+    return const Center(
+      child: Card(
+        elevation: 50,
+        shadowColor:  Color.fromRGBO(0, 53,96, 1.0),
+        surfaceTintColor: Color.fromRGBO(231, 231, 231, 1.0),
+        color: Color.fromRGBO(231, 231, 231, 1.0),
+        child: AspectRatio(
+          aspectRatio: 16 / 9,
+            child: SimpleStateMachine(),
+          ),
+
       ),
     );
   }
@@ -90,20 +90,20 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
 
   //Methode zum verzögerten Start der "onTimerEnd" Funktion
   void _startButtonTimer(VoidCallback onTimerEnd) {
-    Timer(Duration(seconds: 4), onTimerEnd);
+    Timer(const Duration(seconds: 4), onTimerEnd);
   }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(width: 16), // Abstand zwischen Rand und Button
+        const SizedBox(width: 16), // Abstand zwischen Rand und Button
         ElevatedButton(
           onPressed: _leftButtonEnabled ? _hitPushButtonLeft : null,
-          child: Text('Links freigeben'),
           style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 32, horizontal: 64), // Anpassen der Button-Größe
+            padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 64), // Anpassen der Button-Größe
           ),
+          child: const Text('Links freigeben'),
         ),
         Expanded(
           child: RiveAnimation.asset(
@@ -113,12 +113,12 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
         ),
         ElevatedButton(
           onPressed: _rightButtonEnabled ? _hitPushButtonRight : null,
-          child: Text('Rechts freigeben'),
           style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 32, horizontal: 64), // Anpassen der Button-Größe
+            padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 64), // Anpassen der Button-Größe
           ),
+          child: const Text('Rechts freigeben'),
         ),
-        SizedBox(width: 16), // Abstand zwischen Button und Rand
+        const SizedBox(width: 16), // Abstand zwischen Button und Rand
       ],
     );
   }
