@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kuka_companion/src/features/companion/presentation/widgets/animation_container.dart';
 
+
 class CompanionPage extends StatelessWidget {
   const CompanionPage({super.key});
 
@@ -33,14 +34,50 @@ class CompanionPage extends StatelessWidget {
               style: TextStyle(color: Colors.white)),
           backgroundColor: const Color.fromRGBO(0, 53, 96, 1.0),
         ),
-        body: Center(
-            /** Card Widget **/
-            child: Card(
-                elevation: 50,
-                shadowColor:Colors.black,
+      body:Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20), //  Abstand zum Rand
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 220,
+              child: Card(
+                elevation: 10,
+                shadowColor: Colors.black,
                 color: const Color.fromRGBO(231, 231, 231, 1.0),
-                child: result)
-        )
+                child: Container(
+
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              flex: 2,
+              child: Card(
+                elevation: 50,
+                shadowColor: Colors.black,
+                color: const Color.fromRGBO(231, 231, 231, 1.0),
+                child: Container(
+                  child: result,
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            SizedBox(
+              width: 220,
+              child: Card(
+                elevation: 10,
+                shadowColor: Colors.black,
+                color: const Color.fromRGBO(231, 231, 231, 1.0),
+                child: Container(
+
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+
     );
 
     return result;
