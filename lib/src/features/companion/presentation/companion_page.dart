@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kuka_companion/src/features/companion/presentation/widgets/animation_container.dart';
-
+import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 class CompanionPage extends StatelessWidget {
   const CompanionPage({super.key});
@@ -23,30 +23,41 @@ class CompanionPage extends StatelessWidget {
     result = SafeArea(child: result);
 
     result = Scaffold(
-        /*appBar: AppBar(
+      /*appBar: AppBar(
         title: const Text('Menschenzentrierte Robotik - RALF',),
         backgroundColor: const Color.fromRGBO(0, 53,96, 1.0), // RUB - BLAU: rgb (0,53,96); RUB - Grün: rgb (141, 174, 16);  RUB- Grau: rgb (231, 231, 231)
       ),*/
-        appBar: AppBar(
-          iconTheme:
-              const IconThemeData(color: Color.fromRGBO(0, 53, 96, 1.0)),
-          title: const Text('Menschenzentrierte Robotik - RALF',
-              style: TextStyle(color: Colors.white)),
-          backgroundColor: const Color.fromRGBO(0, 53, 96, 1.0),
-        ),
-      body:Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20), //  Abstand zum Rand
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: Color.fromRGBO(0, 53, 96, 1.0)),
+        title: const Text('Menschenzentrierte Robotik - RALF',
+            style: TextStyle(color: Colors.white)),
+        backgroundColor: const Color.fromRGBO(0, 53, 96, 1.0),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
               width: 220,
+              height: MediaQuery.of(context).size.height,
               child: Card(
                 elevation: 10,
                 shadowColor: Colors.black,
                 color: const Color.fromRGBO(231, 231, 231, 1.0),
-                child: Container(
-
+                child: SimpleCircularProgressBar(
+                  mergeMode: true,
+                  progressColors: const [Color.fromRGBO(141, 174, 16, 0.5),  Color.fromRGBO(141, 174, 16, 1.0)],
+                  onGetText: (double value) {
+                    return Text(
+                      '${value.toInt()}',
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(0, 53,96, 1.0),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -69,15 +80,12 @@ class CompanionPage extends StatelessWidget {
                 elevation: 10,
                 shadowColor: Colors.black,
                 color: const Color.fromRGBO(231, 231, 231, 1.0),
-                child: Container(
-
-                ),
+                child: Container(),
               ),
             ),
           ],
         ),
       ),
-
     );
 
     return result;
