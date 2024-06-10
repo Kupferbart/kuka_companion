@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:kuka_companion/src/features/companion/presentation/widgets/animation_container.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
+import '../../matrize/presenation/matrize_page.dart';
+
+
+
 class CompanionPage extends StatelessWidget {
   const CompanionPage({super.key});
 
@@ -80,7 +84,7 @@ class CompanionPage extends StatelessWidget {
                 elevation: 10,
                 shadowColor: Colors.black,
                 color: const Color.fromRGBO(231, 231, 231, 1.0),
-                child: Container(),
+                child: MatrizePage(),
               ),
             ),
           ],
