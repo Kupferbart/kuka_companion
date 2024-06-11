@@ -4,8 +4,6 @@ import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 import '../../matrize/presenation/matrize_page.dart';
 
-
-
 class CompanionPage extends StatelessWidget {
   const CompanionPage({super.key});
 
@@ -41,6 +39,7 @@ class CompanionPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(
               width: 220,
@@ -51,14 +50,17 @@ class CompanionPage extends StatelessWidget {
                 color: const Color.fromRGBO(231, 231, 231, 1.0),
                 child: SimpleCircularProgressBar(
                   mergeMode: true,
-                  progressColors: const [Color.fromRGBO(141, 174, 16, 0.5),  Color.fromRGBO(141, 174, 16, 1.0)],
+                  progressColors: const [
+                    Color.fromRGBO(141, 174, 16, 0.5),
+                    Color.fromRGBO(141, 174, 16, 1.0)
+                  ],
                   onGetText: (double value) {
                     return Text(
                       '${value.toInt()}',
                       style: const TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(0, 53,96, 1.0),
+                        color: Color.fromRGBO(0, 53, 96, 1.0),
                       ),
                     );
                   },
@@ -67,7 +69,7 @@ class CompanionPage extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             Expanded(
-              flex: 2,
+              flex: 1,
               child: Card(
                 elevation: 50,
                 shadowColor: Colors.black,
@@ -78,13 +80,18 @@ class CompanionPage extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 16),
-            SizedBox(
+            const SizedBox(
               width: 220,
               child: Card(
                 elevation: 10,
                 shadowColor: Colors.black,
-                color: const Color.fromRGBO(231, 231, 231, 1.0),
-                child: MatrizePage(),
+                color: Color.fromRGBO(231, 231, 231, 1.0),
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(
+                    child: MatrizePage(),
+                  ),
+                ),
               ),
             ),
           ],

@@ -8,17 +8,7 @@ class AnimationContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Card(
-        elevation: 50,
-        shadowColor:  Color.fromRGBO(0, 53,96, 1.0),
-        surfaceTintColor: Color.fromRGBO(231, 231, 231, 1.0),
-        color: Color.fromRGBO(231, 231, 231, 1.0),
-        child: AspectRatio(
-          aspectRatio: 16 / 9,
-            child: SimpleStateMachine(),
-          ),
-
-      ),
+      child: SimpleStateMachine(),
     );
   }
 }
@@ -41,9 +31,9 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
         artboard, 'Current Statemachine Ben');
     artboard.addController(controller!);
     _pushButtonLeft =
-    controller.findInput<bool>('pushButtonLeft') as SMITrigger;
+        controller.findInput<bool>('pushButtonLeft') as SMITrigger;
     _pushButtonRight =
-    controller.findInput<bool>('pushButtonRight') as SMITrigger;
+        controller.findInput<bool>('pushButtonRight') as SMITrigger;
   }
 
   //Funktion die nach klicken des linken Buttons auslöst
@@ -95,31 +85,54 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    Widget result;
+
+    final ElevatedButton leftButton = ElevatedButton(
+      onPressed: _leftButtonEnabled ? _hitPushButtonLeft : null,
+      child: const Text('Links freigeben'),
+    );
+
+    final ElevatedButton rightButton = ElevatedButton(
+      onPressed: _rightButtonEnabled ? _hitPushButtonRight : null,
+      child: const Text('Rechts freigeben'),
+    );
+
+    result = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const SizedBox(width: 16), // Abstand zwischen Rand und Button
-        ElevatedButton(
-          onPressed: _leftButtonEnabled ? _hitPushButtonLeft : null,
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 64), // Anpassen der Button-Größe
-          ),
-          child: const Text('Links freigeben'),
-        ),
-        Expanded(
-          child: RiveAnimation.asset(
-            'assets/square_guy_team.riv',
-            onInit: _onRiveInit,
-          ),
-        ),
-        ElevatedButton(
-          onPressed: _rightButtonEnabled ? _hitPushButtonRight : null,
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 64), // Anpassen der Button-Größe
-          ),
-          child: const Text('Rechts freigeben'),
-        ),
-        const SizedBox(width: 16), // Abstand zwischen Button und Rand
+        leftButton,
+        rightButton,
       ],
     );
+
+    result = Column(
+      children: [
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 500,),
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: RiveAnimation.asset(
+              'assets/square_guy_team.riv',
+              onInit: _onRiveInit,
+            ),
+          ),
+        ),
+        const Spacer(),
+        result,
+      ],
+    );
+
+    // return Row(
+    //   children: [
+    //     const SizedBox(width: 16), // Abstand zwischen Rand und Button
+    //
+    //     Expanded(
+    //       child:
+    //     ),
+    //
+    //     const SizedBox(width: 16), // Abstand zwischen Button und Rand
+    //   ],
+    // );
+    return result;
   }
 }
