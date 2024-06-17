@@ -1,6 +1,27 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
+import '../../../matrizeState/matrize_state_notifier.dart';
+
+
+
+void main() {
+  runApp(const ProviderScope(child: MyApp()));
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: Scaffold(
+        body: AnimationContainer(),
+      ),
+    );
+  }
+}
 
 class AnimationContainer extends StatelessWidget {
   const AnimationContainer({super.key});
@@ -28,15 +49,12 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
 
   void _onRiveInit(Artboard artboard) {
     final controller = StateMachineController.fromArtboard(
-        artboard, 'Current Statemachine Ben');
+        artboard, 'Current Statemachine');
     artboard.addController(controller!);
-    _pushButtonLeft =
-        controller.findInput<bool>('pushButtonLeft') as SMITrigger;
-    _pushButtonRight =
-        controller.findInput<bool>('pushButtonRight') as SMITrigger;
+    _pushButtonLeft = controller.findInput<bool>('pushButtonLeft') as SMITrigger;
+    _pushButtonRight = controller.findInput<bool>('pushButtonRight') as SMITrigger;
   }
 
-  //Funktion die nach klicken des linken Buttons auslöst
   void _hitPushButtonLeft() {
     if (_leftButtonEnabled) {
       _pushButtonLeft?.fire();
@@ -45,7 +63,6 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
     }
   }
 
-  //Funktion die nach klicken des rechten Buttons auslöst
   void _hitPushButtonRight() {
     if (_rightButtonEnabled) {
       _pushButtonRight?.fire();
@@ -78,61 +95,52 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
     });
   }
 
-  //Methode zum verzögerten Start der "onTimerEnd" Funktion
   void _startButtonTimer(VoidCallback onTimerEnd) {
     Timer(const Duration(seconds: 4), onTimerEnd);
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget result;
+    return Consumer(builder: (context, ref, child) {
+      final matrixState = ref.watch(matrixStateProvider);
 
-    final ElevatedButton leftButton = ElevatedButton(
-      onPressed: _leftButtonEnabled ? _hitPushButtonLeft : null,
-      child: const Text('Links freigeben'),
-    );
+      //überprüfen des Status der Matrix
+      final bool isMatrixAReady = matrixState['matrixA'] != MatrixState.notFilled;
 
-    final ElevatedButton rightButton = ElevatedButton(
-      onPressed: _rightButtonEnabled ? _hitPushButtonRight : null,
-      child: const Text('Rechts freigeben'),
-    );
+      final ElevatedButton leftButton = ElevatedButton(
+        onPressed: isMatrixAReady && _leftButtonEnabled ? _hitPushButtonLeft : null,
+        child: const Text('Links freigeben'),
+      );
 
-    result = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        leftButton,
-        rightButton,
-      ],
-    );
+      final ElevatedButton rightButton = ElevatedButton(
+        onPressed: _rightButtonEnabled ? _hitPushButtonRight : null,
+        child: const Text('Rechts freigeben'),
+      );
 
-    result = Column(
-      children: [
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 500,),
-          child: AspectRatio(
-            aspectRatio: 16 / 9,
-            child: RiveAnimation.asset(
-              'assets/square_guy_team.riv',
-              onInit: _onRiveInit,
+      return Column(
+        children: [
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxHeight: 500,
+            ),
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
+              child: RiveAnimation.asset(
+                'assets/square_guy_team_17_06.riv',
+                onInit: _onRiveInit,
+              ),
             ),
           ),
-        ),
-        const Spacer(),
-        result,
-      ],
-    );
-
-    // return Row(
-    //   children: [
-    //     const SizedBox(width: 16), // Abstand zwischen Rand und Button
-    //
-    //     Expanded(
-    //       child:
-    //     ),
-    //
-    //     const SizedBox(width: 16), // Abstand zwischen Button und Rand
-    //   ],
-    // );
-    return result;
+          const Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              leftButton,
+              rightButton,
+            ],
+          ),
+        ],
+      );
+    });
   }
 }
