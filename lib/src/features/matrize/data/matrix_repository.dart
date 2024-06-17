@@ -1,43 +1,51 @@
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'matirx_model.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:convert';
+import '../../matrizeState/matritze_model_notifier.dart';
+import '../../matrizeState/matrize_state_notifier.dart';
 
 class MatrixRepository {
-  //Websocket Channel for communication
   final WebSocketChannel channel;
+  final Ref ref;
 
-  //Konstruktor
-  MatrixRepository({required this.channel});
+  MatrixRepository({required this.channel, required this.ref}) {
+    channel.stream.listen((data) {
+      if (data is String && data.isNotEmpty) {
+        debugPrint(data);
+        final jsonData = jsonDecode(data);
+        final matrixId = jsonData['id'];
+        final status = jsonData['status'];
 
-  //wandle Datenstrom zu MatrixModel um
-  Stream<MatrixModel> getMatrixStatusStream() {
-    return channel.stream.map((data) {
-      debugPrint('Empfangene Daten: $data');
-      try {
-        if (data is String && data.isNotEmpty) {
-          final jsonData = jsonDecode(data);
-          debugPrint('Dekodierte Daten: $jsonData');
-          if (jsonData.containsKey('componentsFilled') && jsonData['componentsFilled'] is List<bool>) {
-            return MatrixModel.fromJson(jsonData);
-          } else {
-            throw Exception('Ungültiges JSON-Format für MatrixModel');
+        if (matrixId != null && (matrixId == 'matrixA' || matrixId == 'matrixB')) {
+          ref.read(matrixModelsProvider.notifier).updateFromJson(matrixId, jsonData);
+
+          // Aktualisiere Status, anhand der Message des Servers
+          switch (status) {
+            case 'rosettenPacked':
+              ref.read(matrixStateProvider.notifier).updateState(matrixId, MatrixState.rosettenPacked);
+              break;
+            case 'pappePacked':
+              ref.read(matrixStateProvider.notifier).updateState(matrixId, MatrixState.pappePacked);
+              break;
+            case 'allPacked':
+              ref.read(matrixStateProvider.notifier).updateState(matrixId, MatrixState.allPacked);
+              break;
           }
-        } else {
-          throw Exception('Ungültiges Datenformat: $data');
         }
-      } catch (e) {
-        debugPrint('Fehler beim Verarbeiten der JSON-Daten: $e');
-        return MatrixModel(componentsFilled: List.filled(5, false));
       }
     });
   }
 
-  //wandle Datenstrom zu MatrixModel um
-  Stream getMatrixStream() {
-    return channel.stream;
+  void sendJson(Map<String, dynamic> json) {
+    final jsonString = jsonEncode(json);
+    channel.sink.add(jsonString);
   }
-
 }
 
+final matrixRepositoryProvider = Provider<MatrixRepository>((ref) {
+  final channel = WebSocketChannel.connect(
+    Uri.parse('wss://echo.websocket.events'),
+  );
+  return MatrixRepository(channel: channel, ref: ref);
+});
