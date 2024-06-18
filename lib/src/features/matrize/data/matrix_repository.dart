@@ -12,12 +12,13 @@ class MatrixRepository {
   MatrixRepository({required this.channel, required this.ref}) {
     channel.stream.listen((data) {
       if (data is String && data.isNotEmpty) {
-        debugPrint(data);
+        debugPrint("Data from repo:$data");
         final jsonData = jsonDecode(data);
-        final matrixId = jsonData['id'];
+        final matrixId = jsonData['matrixId'];
         final status = jsonData['status'];
 
         if (matrixId != null && (matrixId == 'matrixA' || matrixId == 'matrixB')) {
+          debugPrint("I am here");
           ref.read(matrixModelsProvider.notifier).updateFromJson(matrixId, jsonData);
 
           // Aktualisiere Status, anhand der Message des Servers
@@ -45,7 +46,8 @@ class MatrixRepository {
 
 final matrixRepositoryProvider = Provider<MatrixRepository>((ref) {
   final channel = WebSocketChannel.connect(
-    Uri.parse('wss://echo.websocket.events'),
+        Uri.parse('ws://10.42.0.1:8765'),
+        //Uri.parse('wss://echo.websocket.events')
   );
   return MatrixRepository(channel: channel, ref: ref);
 });

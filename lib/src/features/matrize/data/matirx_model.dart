@@ -26,11 +26,11 @@ class MatrixModel extends Equatable {
   factory MatrixModel.fromJson(Map<String, dynamic> json) {
     return MatrixModel(
       matrixId: json['matrixId'],
-      isRossetteA: json['isRossetteA'] as bool,
-      isRossetteB: json['isRossetteB'] as bool,
-      isGewindeA: json['isGewindeA'] as bool,
-      isGewindeB: json['isGewindeB'] as bool,
-      isKarton: json['isKarton'] as bool,
+      isRossetteA: json['rosette_A'] as bool,
+      isRossetteB: json['rosette_B'] as bool,
+      isGewindeA: json['gewinde_A'] as bool,
+      isGewindeB: json['gewinde_B'] as bool,
+      isKarton: json['box'] as bool,
     );
   }
 
