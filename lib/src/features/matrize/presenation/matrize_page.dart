@@ -80,12 +80,14 @@ class MatrizePage extends ConsumerWidget {
 
                       // Beispiel für das Senden einer JSON-Nachricht
                       //repository.sendJson({'action': 'run_rosetten', 'matrixId': entry.key});
-                      repository.sendJson({'matrixId': entry.key, 'isRossetteA': true, 'isRossetteB': true, 'isGewindeA': true, 'isGewindeB': true, 'isKarton': false});
+                      repository.sendJson({'matrixId': entry.key, 'rosette_A': true, 'rosette_B': true, 'gewinde_A': true, 'gewinde_B': true, 'box': true});
                       //matrixNotifier.setAllComponentsTrue('matrixA');
                       //updateParametersForRive();
                       //value = entry.value.isRossetteA;
                       //_boolRosette1?.value = entry.value.isRossetteA;
                       //_boolRosette1?.value = value;
+
+                      //_boolRosette2.value = true;
 
                       /*if(value){
 
