@@ -9,7 +9,7 @@ part 'user_repository.g.dart';
 UserRepository userRepository(UserRepositoryRef ref) =>
     const MockUserRepository();
 
-abstract class UserRepository {
+abstract class UserRepository{
   const UserRepository();
 
   List<AppUser> getUserList();

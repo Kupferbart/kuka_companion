@@ -44,10 +44,10 @@ class MatrixRepository {
   }
 }
 
-final matrixRepositoryProvider = Provider<MatrixRepository>((ref) {
-  final channel = WebSocketChannel.connect(
-        //Uri.parse('ws://10.42.0.1:8765'),
-        Uri.parse('wss://echo.websocket.events')
-  );
-  return MatrixRepository(channel: channel, ref: ref);
-});
+// final matrixRepositoryProvider = Provider<MatrixRepository>((ref) {
+//   final channel = WebSocketChannel.connect(
+//         //Uri.parse('ws://10.42.0.1:8765')
+//         Uri.parse('wss://echo.websocket.events')
+//   );
+//   return MatrixRepository(channel: channel, ref: ref);
+// });
