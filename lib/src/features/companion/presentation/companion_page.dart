@@ -86,7 +86,7 @@ class CompanionPage extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 16),
-            const SizedBox(
+            SizedBox(
               width: 500,
               child: Card(
                 elevation: 10,

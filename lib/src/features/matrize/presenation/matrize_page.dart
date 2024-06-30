@@ -9,48 +9,59 @@ import '../data/matrix_repository.dart';
 
 
 class MatrizePage extends ConsumerWidget {
-  const MatrizePage({super.key});
+  MatrizePage({super.key});
 
+  late SMIInput<bool> _boolRosette1;
+  late SMIInput<bool> _boolRosette2;
+  late SMIInput<bool> _boolGewinde1;
+  late SMIInput<bool> _boolGewinde2;
+  late SMIInput<bool>_boolBox;
+
+  bool isInitialized = false;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
     //final matrixNotifier = ref.watch(matrixStateProvider.notifier);
     final matrixModels = ref.watch(matrixModelsProvider);
+    final matrixStateA = ref.watch(matrixModelsProvider)['matrixA'];
     final repository = ref.watch(matrixRepositoryProvider);
 
-    //SMIBool? _boolRosette1;
-    //SMIBool? _boolRosette2;
-    //SMIBool? _boolGewinde1;
-    //SMIBool? _boolGewinde2;
+    debugPrint("MatrixStateA Build null");
 
-    //bool value;
-
-    /*void updateParametersForRive(){
-
-      debugPrint("updateparametersForRive");
-
-      for (var entry in matrixModels.entries) {
-        //_boolRosette1?.value = entry.value.isRossetteA;
-        //_boolRosette2?.value = entry.value.isRossetteB;
-        //_boolGewinde1?.value = entry.value.isGewindeA;
-        //_boolGewinde1?.value = entry.value.isGewindeB;
-      }
-
-    }*/
-
-
-    void _onRiveInit1(Artboard artboard) {
-      final controller = StateMachineController.fromArtboard(
-          artboard, 'Matrize Statemachine');
-      artboard.addController(controller!);
-      //_boolGewinde1 = controller.getBoolInput('Schraube1');
-      //_boolGewinde2 = controller.getBoolInput('Schraube2');
-      //_boolRosette1 = controller.getBoolInput('Rosette1');
-      //_boolRosette2 = controller.getBoolInput('Rosette2');
-
+    if (isInitialized && matrixStateA != null) {
+      _boolRosette1.value = matrixStateA.isRossetteA;
+      _boolRosette2.value = matrixStateA.isRossetteB;
+      _boolGewinde1.value = matrixStateA.isGewindeA;
+      _boolGewinde2.value = matrixStateA.isGewindeB;
+      _boolBox.value = matrixStateA.isKarton;
     }
 
+    void _updateRiveInputs() {
+      final matrixStateA = ref.watch(matrixModelsProvider)['matrixA'];
+      if (matrixStateA != null) {
+        _boolRosette1.value = matrixStateA.isRossetteA;
+        _boolRosette2.value = matrixStateA.isRossetteB;
+        _boolGewinde1.value = matrixStateA.isGewindeA;
+        _boolGewinde2.value = matrixStateA.isGewindeB;
+        _boolBox.value = matrixStateA.isKarton;
+      }
+    }
+
+    void _onRiveInit1(Artboard artboard) {
+
+      final controller = StateMachineController.fromArtboard(artboard, 'Matrize Statemachine');
+      if (controller != null) {
+        artboard.addController(controller);
+        _boolGewinde1 = controller.findInput<bool>('Schraube1')!;
+        _boolGewinde2 = controller.findInput<bool>('Schraube2')!;
+        _boolRosette1 = controller.findInput<bool>('Rosette1')!;
+        _boolRosette2 = controller.findInput<bool>('Rosette2')!;
+        _boolBox = controller.findInput<bool>('Box')!;
+        isInitialized = true;
+        _updateRiveInputs();
+      }
+    }
 
     return ListView(
       children: [
@@ -72,33 +83,12 @@ class MatrizePage extends ConsumerWidget {
                   Text('Gewinde B: ${entry.value.isGewindeB}'),
                   Text('Karton: ${entry.value.isKarton}'),
 
-
-
                   const SizedBox(height: 16.0),
                   ElevatedButton(
                     onPressed: () {
 
                       // Beispiel für das Senden einer JSON-Nachricht
-                      //repository.sendJson({'action': 'run_rosetten', 'matrixId': entry.key});
                       repository.sendJson({'matrixId': entry.key, 'rosette_A': true, 'rosette_B': true, 'gewinde_A': true, 'gewinde_B': true, 'box': true});
-                      //matrixNotifier.setAllComponentsTrue('matrixA');
-                      //updateParametersForRive();
-                      //value = entry.value.isRossetteA;
-                      //_boolRosette1?.value = entry.value.isRossetteA;
-                      //_boolRosette1?.value = value;
-
-                      //_boolRosette2.value = true;
-
-                      /*if(value){
-
-                        debugPrint("value ${value}");
-                        _boolRosette2?.value = true;
-
-                      }*/
-                      //_boolRosette2?.value = entry.value.isRossetteB;
-                      //_boolGewinde1?.value = entry.value.isGewindeA;
-                      //_boolGewinde1?.value = entry.value.isGewindeB;
-                      //_boolGewinde1?.fire(entry.value.isRossetteA);
                       debugPrint("run_rosetten");
                     },
                     child: const Text('Bestätigen'),
@@ -114,7 +104,7 @@ class MatrizePage extends ConsumerWidget {
           child: AspectRatio(
             aspectRatio: 16 / 9,
             child: RiveAnimation.asset(
-              'assets/square_guy_team_17_06(2).riv',
+              'assets/square_guy_team_30_06.riv',
               artboard: "Matrize",
               onInit: _onRiveInit1,
             ),
