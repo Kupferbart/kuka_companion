@@ -9,10 +9,12 @@ enum MatrixState {
   waitRosettenPacked,
   rosettenPacked,
   waitPappePacked,
-  pappePacked,
   waitGewindePacked,
   allPacked,
+  finished,
+  error
 }
+
 
 class MatrixStateNotifier extends StateNotifier<Map<String, MatrixState>> {
   MatrixStateNotifier() : super({
@@ -38,6 +40,10 @@ class MatrixStateNotifier extends StateNotifier<Map<String, MatrixState>> {
   void setAllComponentsTrue(String matrixId) {
     MatrixModel model = MatrixModel(matrixId: matrixId, isRossetteA: true, isRossetteB: true, isGewindeA: true, isGewindeB: true, isKarton: true); // Beispielmodell mit allen Werten auf TRUE
     checkAndUpdateState(matrixId, model);
+  }
+
+  void resetState(String matrixId) {
+    updateState(matrixId, MatrixState.notFilled);
   }
 
 }

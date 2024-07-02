@@ -13,26 +13,35 @@ class MatrixRepository {
     channel.stream.listen((data) {
       if (data is String && data.isNotEmpty) {
         debugPrint("Data from repo:$data");
-        final jsonData = jsonDecode(data);
-        final matrixId = jsonData['matrixId'];
-        final status = jsonData['status'];
+        try{
+          final jsonData = jsonDecode(data);
+          final matrixId = jsonData['matrixId'];
+          final status = jsonData['status'];
 
-        if (matrixId != null && (matrixId == 'matrixA' || matrixId == 'matrixB')) {
-          debugPrint("I am here");
-          ref.read(matrixModelsProvider.notifier).updateFromJson(matrixId, jsonData);
+          if (matrixId != null &&
+              (matrixId == 'matrixA' || matrixId == 'matrixB')) {
+            ref.read(matrixModelsProvider.notifier).updateFromJson(
+                matrixId, jsonData);
 
-          // Aktualisiere Status, anhand der Message des Servers
-          switch (status) {
-            case 'rosettenPacked':
-              ref.read(matrixStateProvider.notifier).updateState(matrixId, MatrixState.rosettenPacked);
-              break;
-            case 'pappePacked':
-              ref.read(matrixStateProvider.notifier).updateState(matrixId, MatrixState.pappePacked);
-              break;
-            case 'allPacked':
-              ref.read(matrixStateProvider.notifier).updateState(matrixId, MatrixState.allPacked);
-              break;
+            // Aktualisiere Status, anhand der Message des Servers
+            switch (status) {
+              case 'rosettenPacked':
+                ref.read(matrixStateProvider.notifier).updateState(
+                    matrixId, MatrixState.rosettenPacked);
+                break;
+              case 'gewindePacked':
+                ref.read(matrixStateProvider.notifier).updateState(
+                    matrixId, MatrixState.allPacked);
+                break;
+
+              case 'error':
+                ref.read(matrixStateProvider.notifier).updateState(
+                    matrixId, MatrixState.error);
+                break;
+            }
           }
+        }on FormatException catch (e) {
+          debugPrint('The provided string is not valid JSON');
         }
       }
     });
