@@ -55,11 +55,22 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
     _pushButtonRight = controller.findInput<bool>('pushButtonRight') as SMITrigger;
   }
 
-  void _hitPushButtonLeft() {
+  void _hitPushButtonLeft(WidgetRef ref, String matrixId) {
     if (_leftButtonEnabled) {
       _pushButtonLeft?.fire();
-      _disableLeftButton();
-      _startButtonTimer(_enableLeftButton);
+      final matrixState = ref.watch(matrixStateProvider);
+      if(matrixState[matrixId] == MatrixState.filled) {
+        ref.read(matrixStateProvider.notifier).updateState(
+            matrixId, MatrixState.waitRosettenPacked);
+      }
+      else if(matrixState[matrixId] == MatrixState.waitPappePacked) {
+        ref.read(matrixStateProvider.notifier).updateState(
+            matrixId, MatrixState.waitGewindePacked);
+      }
+      else if(matrixState[matrixId] == MatrixState.allPacked) {
+        ref.read(matrixStateProvider.notifier).updateState(
+            matrixId, MatrixState.finished);
+      }
     }
   }
 
@@ -105,10 +116,23 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
       final matrixState = ref.watch(matrixStateProvider);
 
       //überprüfen des Status der Matrix
-      final bool isMatrixAReady = matrixState['matrixA'] != MatrixState.notFilled;
+      final bool isMatrixAReady = matrixState['matrixA'] == MatrixState.filled;
+      final bool rosettenPacked = matrixState['matrixA'] == MatrixState.rosettenPacked;
+      final bool isPappeReady = matrixState['matrixA'] == MatrixState.waitPappePacked;
+
+      if(rosettenPacked){
+        _hitPushButtonLeft(ref, 'matrixA');
+      }
 
       final ElevatedButton leftButton = ElevatedButton(
-        onPressed: isMatrixAReady && _leftButtonEnabled ? _hitPushButtonLeft : null,
+        onPressed: isMatrixAReady|| isPappeReady ? () {
+          if(isMatrixAReady && _leftButtonEnabled ) {
+            _hitPushButtonLeft(ref, 'matrixA');
+          }
+          else{
+              null;
+          }
+        }: null,
         child: const Text('Links freigeben'),
       );
 

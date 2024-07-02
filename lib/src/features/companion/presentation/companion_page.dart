@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kuka_companion/src/features/companion/presentation/widgets/animation_container.dart';
+import 'package:kuka_companion/src/features/vertical_stepper/presentation/vertical_stepper.dart';
 //import 'package:rive/rive.dart';
-import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
+//import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 import '../../matrize/presenation/matrize_page.dart';
 
@@ -44,17 +45,17 @@ class CompanionPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(
-              width: 220,
+              width: 320,
               height: MediaQuery.of(context).size.height,
-              child: Card(
+              child: const Card(
                 elevation: 10,
                 shadowColor: Colors.black,
-                color: const Color.fromRGBO(231, 231, 231, 1.0),
-                child:
+                color: Color.fromRGBO(231, 231, 231, 1.0),
+                child:VerticalStepper(matrixId: 'matrixA',)
 
 
 
-                SimpleCircularProgressBar(
+                /*SimpleCircularProgressBar(
                   mergeMode: true,
                   progressColors: const [
                     Color.fromRGBO(141, 174, 16, 0.5),
@@ -70,7 +71,7 @@ class CompanionPage extends StatelessWidget {
                       ),
                     );
                   },
-                ),
+                ),*/
               ),
             ),
             const SizedBox(width: 16),
@@ -91,9 +92,9 @@ class CompanionPage extends StatelessWidget {
               child: Card(
                 elevation: 10,
                 shadowColor: Colors.black,
-                color: Color.fromRGBO(231, 231, 231, 1.0),
+                color: const Color.fromRGBO(231, 231, 231, 1.0),
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Center(
                     child: MatrizePage(),
                   ),
