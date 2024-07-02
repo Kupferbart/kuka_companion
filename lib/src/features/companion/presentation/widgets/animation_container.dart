@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
+import '../../../matrize/data/matrix_repository.dart';
 import '../../../matrizeState/matrize_state_notifier.dart';
 
 
@@ -56,16 +57,23 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
   }
 
   void _hitPushButtonLeft(WidgetRef ref, String matrixId) {
+
+    final repository = ref.watch(matrixRepositoryProvider);
     if (_leftButtonEnabled) {
       _pushButtonLeft?.fire();
       final matrixState = ref.watch(matrixStateProvider);
       if(matrixState[matrixId] == MatrixState.filled) {
         ref.read(matrixStateProvider.notifier).updateState(
             matrixId, MatrixState.waitRosettenPacked);
+        debugPrint("Roboter: Lass die Rosetten laufen");
+        repository.sendJson({'matrixId': 'matrixA', 'rosette_A': true, 'rosette_B': true, 'gewinde_A': true, 'gewinde_B': true, 'box': true, 'status': "run_rosetten"});
+
       }
       else if(matrixState[matrixId] == MatrixState.waitPappePacked) {
         ref.read(matrixStateProvider.notifier).updateState(
             matrixId, MatrixState.waitGewindePacked);
+        debugPrint("Roboter: Lass die Gewinde laufen");
+        repository.sendJson({'matrixId': 'matrixA', 'rosette_A': true, 'rosette_B': true, 'gewinde_A': true, 'gewinde_B': true, 'box': true, 'status': "run_gewinde"});
       }
       else if(matrixState[matrixId] == MatrixState.allPacked) {
         ref.read(matrixStateProvider.notifier).updateState(
