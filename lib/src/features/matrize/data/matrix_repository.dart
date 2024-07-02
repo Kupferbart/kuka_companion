@@ -33,7 +33,6 @@ class MatrixRepository {
                 ref.read(matrixStateProvider.notifier).updateState(
                     matrixId, MatrixState.allPacked);
                 break;
-
               case 'error':
                 ref.read(matrixStateProvider.notifier).updateState(
                     matrixId, MatrixState.error);
@@ -55,8 +54,8 @@ class MatrixRepository {
 
 final matrixRepositoryProvider = Provider<MatrixRepository>((ref) {
   final channel = WebSocketChannel.connect(
-        //Uri.parse('ws://10.42.0.1:8765'),
-        Uri.parse('wss://echo.websocket.events')
+        Uri.parse('ws://10.42.0.1:8765'),
+        //Uri.parse('wss://echo.websocket.events')
   );
   return MatrixRepository(channel: channel, ref: ref);
 });

@@ -89,7 +89,7 @@ class MatrizePage extends ConsumerWidget {
                       // Beispiel für das Senden einer JSON-Nachricht
                       repository.sendJson({'matrixId': entry.key, 'rosette_A': true, 'rosette_B': true, 'gewinde_A': true, 'gewinde_B': true, 'box': true});
                       //repository.sendJson({'matrixId': entry.key, 'rosette_A': true, 'rosette_B': true, 'gewinde_A': true, 'gewinde_B': true, 'box': true, 'status': "error"});
-                      debugPrint("run_rosetten");
+                      //debugPrint("run_rosetten");
                     },
                     child: const Text('Bestätigen'),
                   ),
