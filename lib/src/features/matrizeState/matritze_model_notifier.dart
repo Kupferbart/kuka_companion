@@ -19,7 +19,7 @@ class MatrixModelsNotifier extends StateNotifier<Map<String, MatrixModel>> {
       ...state,
       matrixId: updatedModel,
     };
-    ref.read(matrixStateProvider.notifier).checkAndUpdateState(matrixId, updatedModel);
+    ref.read(matrixStateProvider.notifier).checkAndUpdateState(matrixId, updatedModel, ref.read(matrixStateProvider)[matrixId]!);
     
   }
 

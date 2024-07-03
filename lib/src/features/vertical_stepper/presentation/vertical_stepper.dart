@@ -42,28 +42,35 @@ class _VerticalStepperState extends ConsumerState<VerticalStepper> {
       });
     }
 
-    if (matrixState == MatrixState.waitRosettenPacked && currentStep == 1) {
+    else if (matrixState == MatrixState.waitRosettenPacked && currentStep == 1) {
       setState(() {
         steps[currentStep].isCompleted = true;
         currentStep++;
       });
     }
 
-    if (matrixState == MatrixState.rosettenPacked && currentStep == 2) {
+    else if (matrixState == MatrixState.rosettenPacked && currentStep == 2) {
       setState(() {
         steps[currentStep].isCompleted = true;
         currentStep++;
       });
     }
 
-    if (matrixState == MatrixState.waitGewindePacked && currentStep == 3) {
+    else if (matrixState == MatrixState.waitGewindePacked && currentStep == 3) {
       setState(() {
         steps[currentStep].isCompleted = true;
         currentStep++;
       });
     }
 
-    if (matrixState == MatrixState.allPacked && currentStep == 4) {
+    else if (matrixState == MatrixState.allPacked && currentStep == 4) {
+      setState(() {
+        steps[currentStep].isCompleted = true;
+        currentStep++;
+      });
+    }
+
+    else if (matrixState == MatrixState.finished && currentStep == 5) {
       setState(() {
         steps[currentStep].isCompleted = true;
         currentStep++;
