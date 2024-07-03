@@ -29,18 +29,20 @@ class MatrixStateNotifier extends StateNotifier<Map<String, MatrixState>> {
     };
   }
 
-  void checkAndUpdateState(String matrixId, MatrixModel model) {
-    if (model.isFilled) {
-      updateState(matrixId, MatrixState.filled);
-    } else {
-      updateState(matrixId, MatrixState.notFilled);
-    }
+  void checkAndUpdateState(String matrixId, MatrixModel model, MatrixState currentState) {
+    //final matrixState = ref.watch(matrixStateProvider)[matrixId] ?? MatrixState.notFilled;
+    //if(matrixState == MatrixState.notFilled) {
+    if(currentState == MatrixState.notFilled)
+      if (model.isFilled) {
+        updateState(matrixId, MatrixState.filled);
+      }
+    //}
   }
-
+  /*
   void setAllComponentsTrue(String matrixId) {
     MatrixModel model = MatrixModel(matrixId: matrixId, isRossetteA: true, isRossetteB: true, isGewindeA: true, isGewindeB: true, isKarton: true); // Beispielmodell mit allen Werten auf TRUE
-    checkAndUpdateState(matrixId, model);
-  }
+    checkAndUpdateState(matrixId, model, ref);
+  }*/
 
   void resetState(String matrixId) {
     updateState(matrixId, MatrixState.notFilled);

@@ -46,7 +46,7 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
   SMITrigger? _pushButtonLeft;
   SMITrigger? _pushButtonRight;
   bool _leftButtonEnabled = true;
-  bool _rightButtonEnabled = true;
+  bool _rightButtonEnabled = false;
 
   void _onRiveInit(Artboard artboard) {
     final controller = StateMachineController.fromArtboard(
@@ -59,6 +59,16 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
   void _hitPushButtonLeft(WidgetRef ref, String matrixId) {
 
     final repository = ref.watch(matrixRepositoryProvider);
+    final matrixState = ref.watch(matrixStateProvider)[matrixId] ?? MatrixState.notFilled;
+
+    if (matrixState == MatrixState.rosettenPacked && matrixId == "matrixA") {
+      _pushButtonLeft?.fire();
+    }
+
+    if (matrixState == MatrixState.allPacked && matrixId == "matrixA") {
+      _pushButtonLeft?.fire();
+    }
+
     if (_leftButtonEnabled) {
       _pushButtonLeft?.fire();
       final matrixState = ref.watch(matrixStateProvider);

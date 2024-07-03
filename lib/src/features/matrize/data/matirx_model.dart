@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:kuka_companion/src/features/matrizeState/matrize_state_notifier.dart';
 
 class MatrixModel extends Equatable {
   //final List<bool> componentsFilled;
@@ -17,6 +18,7 @@ class MatrixModel extends Equatable {
     required this.isGewindeA,
     required this.isGewindeB,
     required this.isKarton,
+
   });
   //gebraucht, um durch equatable zu bestimmen, dass zwei Instanzen gleich sind
   @override
