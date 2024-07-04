@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../matrize/data/matirx_model.dart';
+import '../matrix/data/matirx_model.dart';
 
 // Enum für die verschiedenen Zustände der Matrize
 enum MatrixState {

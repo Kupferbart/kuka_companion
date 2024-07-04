@@ -7,5 +7,5 @@ part 'app_router.g.dart';
 @riverpod
 GoRouter appRouter(AppRouterRef ref) => GoRouter(
       routes: $appRoutes,
-      initialLocation: '/login',
+      initialLocation: '/',
     );

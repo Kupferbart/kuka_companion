@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../matrize/data/matrix_repository.dart';
 import '../../matrizeState/matrize_state_notifier.dart';
 import '../data/step_model.dart';
 
@@ -81,66 +80,63 @@ class _VerticalStepperState extends ConsumerState<VerticalStepper> {
     }
 
 
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Stepper(
-            type: StepperType.vertical,
-            currentStep: currentStep,
-            onStepContinue: null, /*() {
-              if (currentStep < steps.length - 1) {
-                repository.sendJson({'matrixId': widget.matrixId, 'status': todos[0]});
-                setState(() {
-                  steps[currentStep].isCompleted = true;
-                  currentStep++;
-                });
-              } else {
-                // Nach Durchlauf des Arbeitszyklus von vorne beginnen
-                setState(() {
-                  for (var step in steps) {
-                    step.isCompleted = false;
-                  }
-                  currentStep = 0;
-                });
-              }
-            },*/
-            onStepCancel: null, // Entferne Funktionalität des Cancel Button
-            steps: steps.map((step) {
-              return Step(
-                title: Text(step.title),
-                content: Text(step.isCompleted ? 'Erledigt' : step.message),
-                isActive: currentStep >= steps.indexOf(step),
-                state: step.isCompleted ? StepState.complete : StepState.indexed,
-              );
-            }).toList(),
-            controlsBuilder: (BuildContext context, ControlsDetails controls) {
-              return const Row(
-                children: <Widget>[
-                  /*if (currentStep > 0 && currentStep != 1 && currentStep != 2 && currentStep != 3)
-                    ElevatedButton(
-                      onPressed: controls.onStepContinue,
-                      child: const Text('Weiter'),
-                    ),*/
-                ],
-              );
+    return Column(
+      children: [
+        Stepper(
+          type: StepperType.vertical,
+          currentStep: currentStep,
+          onStepContinue: null, /*() {
+            if (currentStep < steps.length - 1) {
+              repository.sendJson({'matrixId': widget.matrixId, 'status': todos[0]});
+              setState(() {
+                steps[currentStep].isCompleted = true;
+                currentStep++;
+              });
+            } else {
+              // Nach Durchlauf des Arbeitszyklus von vorne beginnen
+              setState(() {
+                for (var step in steps) {
+                  step.isCompleted = false;
+                }
+                currentStep = 0;
+              });
+            }
+          },*/
+          onStepCancel: null, // Entferne Funktionalität des Cancel Button
+          steps: steps.map((step) {
+            return Step(
+              title: Text(step.title),
+              content: Text(step.isCompleted ? 'Erledigt' : step.message),
+              isActive: currentStep >= steps.indexOf(step),
+              state: step.isCompleted ? StepState.complete : StepState.indexed,
+            );
+          }).toList(),
+          controlsBuilder: (BuildContext context, ControlsDetails controls) {
+            return const Row(
+              children: <Widget>[
+                /*if (currentStep > 0 && currentStep != 1 && currentStep != 2 && currentStep != 3)
+                  ElevatedButton(
+                    onPressed: controls.onStepContinue,
+                    child: const Text('Weiter'),
+                  ),*/
+              ],
+            );
+          },
+        ),
+        if (matrixState == MatrixState.error)
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                for (var step in steps) {
+                  step.isCompleted = false;
+                }
+                currentStep = 0;
+              });
+              ref.read(matrixStateProvider.notifier).resetState(widget.matrixId);
             },
+            child: const Text('Vorgang neu starten'),
           ),
-          if (matrixState == MatrixState.error)
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  for (var step in steps) {
-                    step.isCompleted = false;
-                  }
-                  currentStep = 0;
-                });
-                ref.read(matrixStateProvider.notifier).resetState(widget.matrixId);
-              },
-              child: const Text('Vorgang neu starten'),
-            ),
-        ],
-      ),
+      ],
     );
   }
 }

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
-import '../../../matrize/data/matrix_repository.dart';
+import '../../../matrix/data/matrix_repository.dart';
 import '../../../matrizeState/matrize_state_notifier.dart';
 
 
@@ -151,10 +151,7 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
 
       return Column(
         children: [
-          ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxHeight: 500,
-            ),
+          Expanded(
             child: AspectRatio(
               aspectRatio: 16 / 9,
               child: RiveAnimation.asset(
@@ -163,7 +160,6 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
               ),
             ),
           ),
-          const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
