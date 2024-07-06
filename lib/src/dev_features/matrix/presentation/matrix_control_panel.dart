@@ -11,7 +11,6 @@ class MatrixControlPanel extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final matrixAsyncValue = ref.watch(matrixStreamProvider);
-    // final robotStatusAsyncValue = ref.watch(robotRepositoryProvider);
 
     Widget result;
 
@@ -34,22 +33,6 @@ class MatrixControlPanel extends ConsumerWidget {
     result = Column(
       children: [
         result,
-        // ElevatedButton(
-        //   onPressed: () =>
-        //       ref.read(matrixRepoProvider).sendMatrixUpdate(const Matrix(
-        //             id: MatrixID('A'),
-        //             rosetteA: true,
-        //             rosetteB: false,
-        //             gewindeA: true,
-        //             gewindeB: false,
-        //             box: true,
-        //           )),
-        //   child: const Text('RESET'),
-        // ),
-        // ElevatedButton(
-        //   onPressed: () => ref.read(robotRepositoryProvider).sendRobotCommand(RobotCommand.packeGewinde),
-        //   child: Text('TEST'),
-        // ),
       ],
     );
 

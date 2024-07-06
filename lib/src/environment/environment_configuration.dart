@@ -5,7 +5,8 @@ part 'environment_configuration.g.dart';
 @riverpod
 EnvironmentConfiguration environmentConfiguration(
     EnvironmentConfigurationRef ref) {
-  if (const String.fromEnvironment('ENVIRONMENT') == 'custom') {
+  //if (const String.fromEnvironment('ENVIRONMENT') == 'custom') {
+  if (true) {
     return const EnvironmentConfiguration(
       devPanel: DevPanelConfiguration(
         enabled: true,
@@ -13,6 +14,7 @@ EnvironmentConfiguration environmentConfiguration(
       matrix: MatrixConfiguration(
         repository: MatrixRepositoryConfiguration(
           websocketUrl: 'wss://ws.postman-echo.com/raw',
+          //websocketUrl: 'ws://10.200.87.54:8001',
           logIncomingMessages: true,
           logOutgoingMessages: true,
           logDebugMessages: true,
