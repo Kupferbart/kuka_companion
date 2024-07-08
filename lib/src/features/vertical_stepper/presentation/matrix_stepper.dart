@@ -48,34 +48,39 @@ class _MatrixStepperState extends ConsumerState<MatrixStepper> {
       title: const Text('Matrix befüllen'),
       content: const Text(
           'Setze bitte beide Rosetten, Gewinde und die Box in die Matrize!'),
-      isActive: _mapWorkflowStateToInt(_currentWorkflowState) == 0,
+      isActive: _mapWorkflowStateToInt(_currentWorkflowState) >= 0,
+      state: _mapWorkflowStateToInt(_currentWorkflowState) > 0 ? StepState.complete : StepState.indexed
     );
 
     final Step robotRosettenStep = Step(
       title: const Text('Rosetten verpacken'),
       content:
           const Text('Bitte warte, bis der Roboter die Rosetten verpackt hat!'),
-      isActive: _mapWorkflowStateToInt(_currentWorkflowState) == 1,
+      isActive: _mapWorkflowStateToInt(_currentWorkflowState) >= 1,
+      state: _mapWorkflowStateToInt(_currentWorkflowState) > 1 ? StepState.complete : StepState.indexed
     );
 
     final Step pappeEinlegenStep = Step(
       title: const Text('Pappe einlegen'),
       content: const Text('Bitte lege die Pappe in die Box!'),
-      isActive: _mapWorkflowStateToInt(_currentWorkflowState) == 2,
+      isActive: _mapWorkflowStateToInt(_currentWorkflowState) >= 2,
+      state: _mapWorkflowStateToInt(_currentWorkflowState) > 2 ? StepState.complete : StepState.indexed
     );
 
     final Step robotGewindeStep = Step(
       title: const Text('Gewinde einlegen'),
       content:
           const Text('Bitte warten, bis der Roboter die Gewinde verpackt hat'),
-      isActive: _mapWorkflowStateToInt(_currentWorkflowState) == 3,
+      isActive: _mapWorkflowStateToInt(_currentWorkflowState) >= 3,
+      state: _mapWorkflowStateToInt(_currentWorkflowState) > 3 ? StepState.complete : StepState.indexed
     );
 
     final Step boxStep = Step(
       title: const Text('Box entnehmen'),
       content:
           const Text('Bitte die Box entnehmen. Du hast es dann geschafft :)'),
-      isActive: _mapWorkflowStateToInt(_currentWorkflowState) == 4,
+      isActive: _mapWorkflowStateToInt(_currentWorkflowState) >= 4,
+      state: _mapWorkflowStateToInt(_currentWorkflowState) > 0 ? StepState.complete : StepState.indexed
     );
 
     stepList.add(fillMatrixStep);
@@ -101,14 +106,14 @@ class _MatrixStepperState extends ConsumerState<MatrixStepper> {
           1 => ElevatedButton(
               onPressed: (_currentWorkflowState.isReady(matrix) &&
                       robot.state == RobotState.ready)
-                  ? _startRobotGewinde
+                  ? ref.read(workflowServiceProvider).enterNextState
                   : null,
               child: const Text('Weiter'),
             ),
           2 => ElevatedButton(
               onPressed: (_currentWorkflowState.isReady(matrix) &&
                       robot.state == RobotState.ready)
-                  ? ref.read(workflowServiceProvider).enterNextState
+                  ? _startRobotGewinde
                   : null,
               child: const Text('Weiter'),
             ),
@@ -154,6 +159,7 @@ class _MatrixStepperState extends ConsumerState<MatrixStepper> {
       };
 
   void _startRobotRosetten() {
+    debugPrint("startRobotRosetten");
     ref.read(workflowServiceProvider).enterNextState();
     ref
         .read(robotRepositoryProvider)
@@ -161,6 +167,7 @@ class _MatrixStepperState extends ConsumerState<MatrixStepper> {
   }
 
   void _startRobotGewinde() {
+    debugPrint("startRobotGewinde");
     ref.read(workflowServiceProvider).enterNextState();
     ref
         .read(robotRepositoryProvider)

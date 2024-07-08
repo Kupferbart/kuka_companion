@@ -160,13 +160,7 @@ class _SimpleStateMachineState extends State<SimpleStateMachine> {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              leftButton,
-              rightButton,
-            ],
-          ),
+          const SizedBox(height: 32)
         ],
       );
     });
