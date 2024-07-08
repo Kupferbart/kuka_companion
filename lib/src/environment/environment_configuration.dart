@@ -15,6 +15,7 @@ EnvironmentConfiguration environmentConfiguration(
         repository: MatrixRepositoryConfiguration(
           websocketUrl: 'wss://ws.postman-echo.com/raw',
           //websocketUrl: 'ws://10.200.87.54:8001',
+
           logIncomingMessages: true,
           logOutgoingMessages: true,
           logDebugMessages: true,
