@@ -109,12 +109,12 @@ class CompanionPage extends ConsumerWidget {
         ),
         child: stepper);
 
-    const companionAnimationWidget = AnimationContainer();
+    final companionAnimationWidget = AnimationContainer();
     final matrizePage = MatrizePage();
 
     result = Column(
       children: [
-        const Expanded(child: companionAnimationWidget),
+         Expanded(child: companionAnimationWidget),
         ConstrainedBox(
           constraints: const BoxConstraints(maxHeight: 320),
           child: const MatrixAnimation(),
